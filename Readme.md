@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Наталья Шуваева](https://up.htmlacademy.ru/javascript/17/user/1006565).
-* Наставник: `Неизвестно`.
+* Наставник: [Старчиков Павел](https://htmlacademy.ru/profile/id921875).
 
 ---
 
