@@ -15,17 +15,16 @@ var randNumber = function (min, max) {
 // array of random nonrepeating numbers
 var randNonRepeating = [];
 var numberOfImages = 8;
-for (var i = 0; i < numberOfImages; i++) {
+for (var i = 1; i <= numberOfImages; i++) {
   randNonRepeating.push(i);
 }
 
 // creating map pins array
 
 var getPin = function (n) {
-  n++;
   var onePin = {
     'author': {
-      'avatar': 'img/avatars/user0' + randNonRepeating[n]
+      'avatar': 'img/avatars/user0' + randNonRepeating[n] + '.png'
     },
 
     'offer': {
@@ -58,7 +57,8 @@ var pinTemplate = document.querySelector('#pin')
 for (var j = 0; j < pins.length; j++) {
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.style = 'left: ' + pins[j].location.x + 'px; top: ' + pins[j].location.y + 'px;';
-  pinElement.src = pins[j].author.avatar;
+  var pinImg = pinElement.querySelector('img');
+  pinImg.src = pins[j].author.avatar;
   pinElement.alt = 'заголовок объявления';
   mapPins.appendChild(pinElement);
 
