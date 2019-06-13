@@ -35,6 +35,7 @@ var getPin = function (n) {
       'x': randNumber(0, mapPins.offsetWidth),
       'y': randNumber(130, 630)
     }
+
   };
   return onePin;
 };
@@ -56,10 +57,11 @@ var pinTemplate = document.querySelector('#pin')
 
 for (var j = 0; j < pins.length; j++) {
   var pinElement = pinTemplate.cloneNode(true);
-  pinElement.style = 'left: ' + pins[j].location.x + 'px; top: ' + pins[j].location.y + 'px;';
+  var x = pins[j].location.x - pinElement.clientWidth / 2;
+  var y = pins[j].location.y - pinElement.clientHeight / 2;
+  pinElement.style = 'left: ' + x + 'px; top: ' + y + 'px;';
   var pinImg = pinElement.querySelector('img');
   pinImg.src = pins[j].author.avatar;
   pinElement.alt = 'заголовок объявления';
   mapPins.appendChild(pinElement);
-
 }
