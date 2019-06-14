@@ -1,5 +1,8 @@
 'use strict';
 
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
+
 // Find pins in index.html
 var mapPins = document.querySelector('.map__pins');
 
@@ -57,11 +60,11 @@ var pinTemplate = document.querySelector('#pin')
 
 for (var j = 0; j < pins.length; j++) {
   var pinElement = pinTemplate.cloneNode(true);
-  var x = pins[j].location.x - pinElement.clientWidth / 2;
-  var y = pins[j].location.y - pinElement.clientHeight / 2;
+  var x = pins[j].location.x - PIN_WIDTH / 2;
+  var y = pins[j].location.y - PIN_HEIGHT / 2;
   pinElement.style = 'left: ' + x + 'px; top: ' + y + 'px;';
   var pinImg = pinElement.querySelector('img');
   pinImg.src = pins[j].author.avatar;
-  pinElement.alt = 'заголовок объявления';
+  pinImg.alt = 'заголовок объявления';
   mapPins.appendChild(pinElement);
 }
