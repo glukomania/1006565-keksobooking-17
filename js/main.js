@@ -26,7 +26,7 @@ var roomNumber = adForm.querySelector('#room_number');
 var capacity = adForm.querySelector('#capacity');
 
 // Add type array
-var type = ['palace', 'flat', 'house', 'bungalo'];
+ var types = ['palace', 'flat', 'house', 'bungalo'];
 
 // random index of any array
 var randNumber = function (min, max) {
@@ -50,7 +50,7 @@ var getPin = function (n) {
     },
 
     'offer': {
-      'type': type[randNumber(0, 3)]
+      'type': types[randNumber(0, 3)]
     },
 
     'location': {
@@ -154,20 +154,17 @@ price.setAttribute('min', '1000');
 price.setAttribute('placeholder', '1000');
 
 // change price depending of property type
+
+var type = {
+  bungalo: {min: 5, placeholder: 5},
+  flat: {min: 1000, placeholder: 1000},
+  house: {min: 5000, placeholder: 5000},
+  palace: {min: 10000, placeholder: 10000}
+};
+
 typeOfProperty.addEventListener('change', function () {
-  if (typeOfProperty.value === 'bungalo') {
-    price.setAttribute('min', '5');
-    price.setAttribute('placeholder', '5');
-  } else if (typeOfProperty.value === 'flat') {
-    price.setAttribute('min', '1000');
-    price.setAttribute('placeholder', '1000');
-  } else if (typeOfProperty.value === 'house') {
-    price.setAttribute('min', '5000');
-    price.setAttribute('placeholder', '5000');
-  } else if (typeOfProperty.value === 'palace') {
-    price.setAttribute('min', '10000');
-    price.setAttribute('placeholder', '10000');
-  }
+  price.setAttribute('min', type[typeOfProperty.value].min);
+  price.setAttribute('placeholder', type[typeOfProperty.value].placeholder);
 });
 
 // validation of time in and out
