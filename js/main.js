@@ -9,11 +9,24 @@ var MAIN_ROUND_PIN_HEIGHT = 35;
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 87;
 
-// Find pins in index.html
+// Find DOM elements
 var mapPins = document.querySelector('.map__pins');
+var mouseup = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adFormPhoto = adForm.querySelector('.ad-form__field');
+var inputInit = adForm.querySelectorAll('input');
+var selectInit = adForm.querySelectorAll('select');
+var textarea = adForm.querySelector('textarea');
+var adFormSubmit = adForm.querySelector('.ad-form__submit');
+var price = adForm.querySelector('#price');
+var typeOfProperty = adForm.querySelector('#type');
+var timein = adForm.querySelector('#timein');
+var timeout = adForm.querySelector('#timeout');
+var roomNumber = adForm.querySelector('#room_number');
+var capacity = adForm.querySelector('#capacity');
 
 // Add type array
-var type = ['palace', 'flat', 'house', 'bungalo'];
+ var types = ['palace', 'flat', 'house', 'bungalo'];
 
 // random index of any array
 var randNumber = function (min, max) {
@@ -37,7 +50,7 @@ var getPin = function (n) {
     },
 
     'offer': {
-      'type': type[randNumber(0, 3)]
+      'type': types[randNumber(0, 3)]
     },
 
     'location': {
@@ -54,40 +67,29 @@ for (i = 0; i < 8; i++) {
   pins.push(getPin(i));
 }
 
-var mouseup = document.querySelector('.map__pin--main');
-
 // Address coordinates
 var setAddress = function (x, y) {
   var addressField = document.querySelector('#address');
   addressField.value = x + ', ' + y;
 };
 
-// initial (disabled) state of the page
+// SET INITIAL (disabled mode) STATE of the page
 
-var adForm = document.querySelector('.ad-form');
-
-var adFormPhoto = document.querySelector('.ad-form__field');
 adFormPhoto.setAttribute('disabled', 'disabled');
 
-var inputInit = document.querySelectorAll('input');
 for (i = 0; i < inputInit.length; i++) {
   inputInit[i].setAttribute('disabled', 'disabled');
 }
 
-var selectInit = document.querySelectorAll('select');
 for (i = 0; i < selectInit.length; i++) {
   selectInit[i].setAttribute('disabled', 'disabled');
 }
 
-var textarea = document.querySelector('textarea');
 textarea.setAttribute('disabled', 'disabled');
-
-var adFormSubmit = document.querySelector('.ad-form__submit');
 adFormSubmit.setAttribute('disabled', 'disabled');
-
 setAddress(Math.round(mouseup.getBoundingClientRect().left + MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.getBoundingClientRect().top + MAIN_ROUND_PIN_HEIGHT / 2));
 
-// SWITCHING TO ACTIVE MODE
+// SWITCHING TO ACTIVE STATE
 
 var setActiveMode = function () {
 
@@ -121,10 +123,108 @@ var setActiveMode = function () {
   textarea.removeAttribute('disabled');
   adFormSubmit.removeAttribute('disabled');
 
-  setAddress(Math.round(mouseup.getBoundingClientRect().left + MAIN_PIN_WIDTH / 2), Math.round(mouseup.getBoundingClientRect().top + MAIN_PIN_HEIGHT / 2));
+  setAddress(Math.round(mouseup.getBoundingClientRect().left + MAIN_PIN_WIDTH / 2), Math.round(mouseup.getBoundingClientRect().top + MAIN_PIN_HEIGHT));
 };
 
 // activation
 mouseup.addEventListener('click', setActiveMode);
 
 
+// mouse over the pin
+mapPins.addEventListener('mouseover', function (evt) {
+  var target = evt.target;
+  if (target.className === 'map__pin') {
+    target.style.zIndex = '1';
+  }
+});
+
+// mouse out of the pin
+mapPins.addEventListener('mouseout', function (evt) {
+  var target = evt.target;
+  if (target.className === 'map__pin') {
+    target.style.zIndex = '0';
+  }
+});
+
+
+// VALIDATION OF FIELDS
+
+// default price value for flat
+price.setAttribute('min', '1000');
+price.setAttribute('placeholder', '1000');
+
+// change price depending of property type
+
+var type = {
+  bungalo: {min: 5, placeholder: 5},
+  flat: {min: 1000, placeholder: 1000},
+  house: {min: 5000, placeholder: 5000},
+  palace: {min: 10000, placeholder: 10000}
+};
+
+typeOfProperty.addEventListener('change', function () {
+  price.setAttribute('min', type[typeOfProperty.value].min);
+  price.setAttribute('placeholder', type[typeOfProperty.value].placeholder);
+});
+
+// validation of time in and out
+
+timein.addEventListener('change', function () {
+  if (timein.value === '12:00') {
+    timeout.selectedIndex = 0;
+  } else if (timein.value === '13:00') {
+    timeout.selectedIndex = 1;
+  } else if (timein.value === '14:00') {
+    timeout.selectedIndex = 2;
+  }
+});
+
+timeout.addEventListener('change', function () {
+  if (timeout.value === '12:00') {
+    timein.selectedIndex = 0;
+  } else if (timeout.value === '13:00') {
+    timein.selectedIndex = 1;
+  } else if (timeout.value === '14:00') {
+    timein.selectedIndex = 2;
+  }
+});
+
+// validation of capacity depending on room number
+
+// default
+if (roomNumber.value === '1') {
+
+  capacity.item(0).style = 'display: none';
+  capacity.item(1).style = 'display: none';
+  capacity.item(2).removeAttribute('style');
+  capacity.item(2).selected = 'selected';
+  capacity.item(3).style = 'display: none';
+}
+// reaction to room number changing
+roomNumber.addEventListener('change', function () {
+  if (roomNumber.value === '1') {
+    capacity.item(0).style = 'display: none';
+    capacity.item(2).removeAttribute('style');
+    capacity.item(2).selected = 'selected';
+    capacity.item(1).style = 'display: none';
+    capacity.item(3).style = 'display: none';
+  } else if (roomNumber.value === '2') {
+    capacity.item(1).removeAttribute('style');
+    capacity.item(1).selected = 'selected';
+    capacity.item(2).removeAttribute('style');
+    capacity.item(0).style = 'display: none';
+    capacity.item(3).style = 'display: none';
+  } else if (roomNumber.value === '3') {
+    capacity.item(0).removeAttribute('style');
+    capacity.item(0).selected = 'selected';
+    capacity.item(1).removeAttribute('style');
+    capacity.item(2).removeAttribute('style');
+    capacity.item(3).style = 'display: none';
+  } else if (roomNumber.value === '100') {
+    capacity.item(0).style = 'display: none';
+    capacity.item(1).style = 'display: none';
+    capacity.item(2).style = 'display: none';
+    capacity.item(3).removeAttribute('style');
+    capacity.item(3).selected = 'selected';
+  }
+});
