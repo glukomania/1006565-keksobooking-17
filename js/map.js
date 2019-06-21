@@ -156,7 +156,6 @@
         y: moveEvt.clientY
       };
 
-      console.log(startCoords)
       // Set the limits for pin moving
       if (mouseup.offsetTop > 630) {
         mouseup.style.top = 630 + 'px';
