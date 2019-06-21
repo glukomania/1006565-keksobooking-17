@@ -28,23 +28,22 @@
 
   // validation of time in and out
 
+  var times = ['12:00', '13:00', '14:00'];
+
+
   timein.addEventListener('change', function () {
-    if (timein.value === '12:00') {
-      timeout.selectedIndex = 0;
-    } else if (timein.value === '13:00') {
-      timeout.selectedIndex = 1;
-    } else if (timein.value === '14:00') {
-      timeout.selectedIndex = 2;
+    for (var i = 0; i < times.length; i++) {
+      if (timein.value === times[i]) {
+        timeout.selectedIndex = i;
+      }
     }
   });
 
   timeout.addEventListener('change', function () {
-    if (timeout.value === '12:00') {
-      timein.selectedIndex = 0;
-    } else if (timeout.value === '13:00') {
-      timein.selectedIndex = 1;
-    } else if (timeout.value === '14:00') {
-      timein.selectedIndex = 2;
+    for (var i = 0; i < times.length; i++) {
+      if (timeout.value === times[i]) {
+        timein.selectedIndex = i;
+      }
     }
   });
 
