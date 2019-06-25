@@ -87,7 +87,7 @@
       adFormSubmit.removeAttribute('disabled');
       isFirstOpen = false;
     } else {
-      if (isFirstOpen === false) {  // return main pin (doesn't work)
+      if (isFirstOpen === false) {
         var pinsElementInDOM = document.querySelectorAll('.map__pin');
         this.console.log(pinsElementInDOM);
         for (i = 0; i < pinsElementInDOM.length; i++) {
