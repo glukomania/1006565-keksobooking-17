@@ -3,19 +3,6 @@
 // creating PINS elements from template
 // pins.js
 (function () {
-
-  // Find DOM elements
-  var mapPins = document.querySelector('.map__pins');
-
-  // Add type array
-  var types = ['palace', 'flat', 'house', 'bungalo'];
-
-  // random index of any array
-  var randNumber = function (min, max) {
-    var random = Math.round(Math.random() * (max - min) + min);
-    return random;
-  };
-
   // array of random nonrepeating numbers
   var randNonRepeating = [];
   var numberOfImages = 8;
@@ -23,35 +10,10 @@
     randNonRepeating.push(i);
   }
 
-  // creating map pins array
-
-  var getPin = function (n) {
-    var onePin = {
-      'author': {
-        'avatar': 'img/avatars/user0' + randNonRepeating[n] + '.png'
-      },
-
-      'offer': {
-        'type': types[randNumber(0, 3)]
-      },
-
-      'location': {
-        'x': randNumber(0, mapPins.offsetWidth),
-        'y': randNumber(130, 630)
-      }
-
-    };
-    return onePin;
-  };
-
-  window.pins = [];
-  for (i = 0; i < 8; i++) {
-    window.pins.push(getPin(i));
-  }
 })();
 
 // set address
-// setAddress.js
+
 (function () {
   window.setAddress = function (x, y) {
     var addressField = document.querySelector('#address');
@@ -65,6 +27,32 @@
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var mapPins = document.querySelector('.map__pins');
 
+  // Handlers of requests
+
+  var successhandler = function (pins) {
+    var pinTemplate = document.querySelector('#pin')
+    .content
+    .querySelector('button');
+    for (var j = 0; j < pins.length; j++) {
+      var pinElement = pinTemplate.cloneNode(true);
+      var x = pins[j].location.x - PIN_WIDTH / 2;
+      var y = pins[j].location.y - PIN_HEIGHT / 2;
+      pinElement.style = 'left: ' + x + 'px; top: ' + y + 'px;';
+      var pinImg = pinElement.querySelector('img');
+      pinImg.src = pins[j].author.avatar;
+      pinImg.alt = 'заголовок объявления';
+      mapPins.appendChild(pinElement);
+    }
+  };
+
+  var errorHandler = function (errorMessage) {
+    if (errorMessage) {
+      var errorDiv = document.querySelector('#error');
+      var errorNode = errorDiv.cloneNode(true);
+      document.body.main.insertAdjacentElement('afterbegin', errorNode);
+    }
+  };
+
   // SET INITIAL (disabled mode) STATE of the page
 
   var PIN_WIDTH = 50;
@@ -76,56 +64,68 @@
   var selectInit = adForm.querySelectorAll('select');
   var textarea = adForm.querySelector('textarea');
   var mouseup = document.querySelector('.map__pin--main');
+  var isFirstOpen = true;
 
-  adFormPhoto.setAttribute('disabled', 'disabled');
+  window.setActive = function (isActive) {
 
-  for (var i = 0; i < inputInit.length; i++) {
-    inputInit[i].setAttribute('disabled', 'disabled');
-  }
 
-  for (i = 0; i < selectInit.length; i++) {
-    selectInit[i].setAttribute('disabled', 'disabled');
-  }
+    if (isActive === true) {
+      // remove class .map--faded
+      document.querySelector('.map').classList.remove('map--faded');
+      window.load(null, successhandler, errorHandler);
 
-  textarea.setAttribute('disabled', 'disabled');
-  adFormSubmit.setAttribute('disabled', 'disabled');
-  window.setAddress(Math.round(mouseup.offsetLeft + MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.offsetTop + MAIN_ROUND_PIN_HEIGHT / 2));
+      // Activation of form and its elements
+      adForm.classList.remove('ad-form--disabled');
+      adFormPhoto.removeAttribute('disabled');
+      for (var i = 0; i < inputInit.length; i++) {
+        inputInit[i].removeAttribute('disabled');
+      }
+      for (i = 0; i < selectInit.length; i++) {
+        selectInit[i].removeAttribute('disabled');
+      }
+      textarea.removeAttribute('disabled');
+      adFormSubmit.removeAttribute('disabled');
+      isFirstOpen = false;
+    } else {
+      if (isFirstOpen === false) {  // return main pin (doesn't work)
+        var pinsElementInDOM = document.querySelectorAll('.map__pin');
+        this.console.log(pinsElementInDOM);
+        for (i = 0; i < pinsElementInDOM.length; i++) {
+          pinsElementInDOM[i].style.visibility = 'hidden';
+        }
+        mouseup.style.visibility = 'visible';
+        mouseup.style.left = '570px';
+        mouseup.style.top = '375px';
+        window.setAddress('570', '375');
+      }
 
-  // active mode function
-  var setActiveMode = function () {
-    // remove class .map--faded
-    document.querySelector('.map').classList.remove('map--faded');
+      document.querySelector('.map').classList.add('map--faded');
+      adForm.classList.add('ad-form--disabled');
+      adFormPhoto.setAttribute('disabled', 'disabled');
 
-    // create PINS
-    var pinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('button');
-    for (var j = 0; j < window.pins.length; j++) {
-      var pinElement = pinTemplate.cloneNode(true);
-      var x = window.pins[j].location.x - PIN_WIDTH / 2;
-      var y = window.pins[j].location.y - PIN_HEIGHT / 2;
-      pinElement.style = 'left: ' + x + 'px; top: ' + y + 'px;';
-      var pinImg = pinElement.querySelector('img');
-      pinImg.src = window.pins[j].author.avatar;
-      pinImg.alt = 'заголовок объявления';
-      mapPins.appendChild(pinElement);
+      for (i = 0; i < inputInit.length; i++) {
+        inputInit[i].setAttribute('disabled', 'disabled');
+        inputInit[i].value = null;
+      }
+
+      for (i = 0; i < selectInit.length; i++) {
+        selectInit[i].setAttribute('disabled', 'disabled');
+        // selectInit[i].selectedIndex = 0;
+      }
+
+      textarea.setAttribute('disabled', 'disabled');
+      adFormSubmit.setAttribute('disabled', 'disabled');
+      window.setAddress(Math.round(mouseup.offsetLeft + MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.offsetTop + MAIN_ROUND_PIN_HEIGHT / 2));
     }
-
-    // Activation of form and its elements
-    adForm.classList.remove('ad-form--disabled');
-    adFormPhoto.removeAttribute('disabled');
-    for (i = 0; i < inputInit.length; i++) {
-      inputInit[i].removeAttribute('disabled');
-    }
-    for (i = 0; i < selectInit.length; i++) {
-      selectInit[i].removeAttribute('disabled');
-    }
-    textarea.removeAttribute('disabled');
-    adFormSubmit.removeAttribute('disabled');
 
   };
+
+  window.setActive(false);
+
   // set active mode!
-  mouseup.addEventListener('mousedown', setActiveMode);
+  mouseup.addEventListener('mousedown', function () {
+    window.setActive(true);
+  });
 })();
 
 // Drug'n'drop of the main pin
@@ -210,5 +210,3 @@
     }
   });
 })();
-
-

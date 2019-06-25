@@ -12,6 +12,7 @@
   price.setAttribute('min', '1000');
   price.setAttribute('placeholder', '1000');
 
+
   // change price depending of property type
 
   var type = {
@@ -87,4 +88,20 @@
     }
   });
 
+  var errorHandler = function (errorMessage) {
+    if (errorMessage) {
+      var errorDiv = document.querySelector('#error');
+      var errorNode = errorDiv.cloneNode(true);
+      document.body.main.insertAdjacentElement('afterbegin', errorNode);
+    }
+  };
+
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.send(new FormData(adForm), function () {
+      window.setActive(false);
+
+    }, errorHandler);
+  });
 })();
