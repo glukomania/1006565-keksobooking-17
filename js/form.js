@@ -90,9 +90,8 @@
 
   var errorHandler = function (errorMessage) {
     if (errorMessage) {
-      var errorDiv = document.querySelector('.error');
+      var errorDiv = document.querySelector('#error');
       var errorNode = errorDiv.cloneNode(true);
-      //var promo = document.querySelector('.promo');
       document.body.insertAdjacentElement('afterbegin', errorNode);
     }
   };
