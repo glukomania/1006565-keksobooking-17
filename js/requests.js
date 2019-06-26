@@ -6,27 +6,13 @@
       xhr.responseType = 'json';
 
       var requestHandler = function () {
-        var error;
-        switch (xhr.status) {
-          case 200:
-            onLoad(xhr.response);
-            break;
-          case 400:
-            error = 'Неверный запрос';
-            break;
-          case 401:
-            error = 'Пользователь не авторизован';
-            break;
-          case 404:
-            error = 'Ничего не найдено';
-            break;
-          default:
-            error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-        }
-        if (error) {
-          onError(error);
+        if (xhr.status === 200) {
+          onLoad(xhr.response);
+        } else {
+          onError = new Error('statusText');
         }
       };
+
       xhr.addEventListener('load', requestHandler);
 
       xhr.addEventListener('error', function () {
@@ -42,7 +28,7 @@
     };
   };
   var sendDataUrl = 'https://js.dump.academy/keksobooking22';
-  var loadDataURL = 'https://js.dump.academy/keksobooking/data';
+  var loadDataURL = 'https://js.dump.academy/keksobooking/data11';
 
   window.send = request('POST', sendDataUrl);
   window.load = request('GET', loadDataURL);
