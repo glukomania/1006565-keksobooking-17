@@ -160,7 +160,7 @@
     // Handlers of removing error message
     var errorButton = errorNode.querySelector('.error__button');
     var onErrorButton = function () {
-      main.removeChild(errorNode);
+      location.reload();
       errorButton.removeEventListener('click', onErrorButton);
     };
     var onEscPress = function (evt) {

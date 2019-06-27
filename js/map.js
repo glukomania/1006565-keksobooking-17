@@ -81,7 +81,6 @@
     } else {
       if (isFirstOpen === false) {
         var pinsElementInDOM = document.querySelectorAll('.map__pin');
-        this.console.log(pinsElementInDOM);
         for (i = 0; i < pinsElementInDOM.length; i++) {
           pinsElementInDOM[i].style.visibility = 'hidden';
         }

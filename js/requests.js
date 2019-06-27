@@ -27,8 +27,8 @@
       xhr.send(data);
     };
   };
-  var sendDataUrl = 'https://js.dump.academy/keksobooking';
-  var loadDataURL = 'https://js.dump.academy/keksobooking/data';
+  var sendDataUrl = 'https://js.dump.academy/keksobooking1';
+  var loadDataURL = 'https://js.dump.academy/keksobooking/data1';
 
   window.send = request('POST', sendDataUrl);
   window.load = request('GET', loadDataURL);
