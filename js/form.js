@@ -103,8 +103,8 @@
 
     // Handlers of removing success message
 
-    var onEscPress = function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+    var onEscPress = function (evtKey) {
+      if (evtKey.keyCode === ESC_KEYCODE) {
         main.removeChild(successNode);
         document.removeEventListener('keydown', onEscPress);
       }
