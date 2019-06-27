@@ -88,14 +88,7 @@
     }
   });
 
-  var errorHandler = function (errorMessage) {
-    if (errorMessage) {
-      var errorDiv = document.querySelector('#error')
-      .content
-      .querySelector('.error');
-      var errorNode = errorDiv.cloneNode(true);
-      document.body.insertAdjacentElement('afterbegin', errorNode.children[0]);
-    }
+  var errorHandler = function () {
   };
 
 
