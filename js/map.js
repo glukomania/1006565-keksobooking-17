@@ -45,17 +45,6 @@
     }
   };
 
-  var errorHandler = function () {
-    // if (errorMessage) {
-    //   console.log('попала в копирование ноды');
-    //   var errorDiv = document.querySelector('#error')
-    //   .content
-    //   .querySelector('.error');
-    //   var errorNode = errorDiv.cloneNode(true);
-    //   document.body.insertAdjacentElement('afterbegin', errorNode.children[0]);
-    // }
-  };
-
   // SET INITIAL (disabled mode) STATE of the page
 
   var PIN_WIDTH = 50;
@@ -75,7 +64,7 @@
     if (isActive === true) {
       // remove class .map--faded
       document.querySelector('.map').classList.remove('map--faded');
-      window.load(null, successhandler, errorHandler);
+      window.load(null, successhandler, window.errorHandler);
 
       // Activation of form and its elements
       adForm.classList.remove('ad-form--disabled');

@@ -7,6 +7,7 @@
   var timeout = adForm.querySelector('#timeout');
   var roomNumber = adForm.querySelector('#room_number');
   var capacity = adForm.querySelector('#capacity');
+  var main = document.querySelector('main');
 
   // default price value for flat
   price.setAttribute('min', '1000');
@@ -88,14 +89,92 @@
     }
   });
 
-  var errorHandler = function () {
-  };
-
-
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.send(new FormData(adForm), function () {
-      window.setActive(false);
-    }, errorHandler);
+    window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
   });
+})();
+
+
+(function () {
+  window.onSuccessHandler = function () {
+    var main = document.querySelector('main');
+    var ESC_KEYCODE = 27;
+
+    window.setActive(false);
+    // Add success message
+    var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+    var successNode = successTemplate.cloneNode(true);
+    main.insertAdjacentElement('afterbegin', successNode);
+
+    // Handlers of removing success message
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        main.removeChild(successNode);
+        document.removeEventListener('keydown', onEscPress);
+      }
+    };
+    var onArea = function () {
+      main.removeChild(successNode);
+      successNode.removeEventListener('click', onArea);
+    };
+    document.addEventListener('keydown', onEscPress);
+    successNode.addEventListener('click', onArea);
+
+  };
+})();
+
+(function () {
+  var main = document.querySelector('main');
+  var ESC_KEYCODE = 27;
+  window.errorHandler = function (status) {
+    var errorTemplate = document.querySelector('#error')
+          .content
+          .querySelector('.error');
+    var errorNode = errorTemplate.cloneNode(true);
+    var error;
+    main.insertAdjacentElement('afterbegin', errorNode);
+    var errorText = errorNode.querySelector('.error__message');
+
+    switch (status) {
+      case 400:
+        error = 'Неверный запрос';
+        break;
+      case 401:
+        error = 'Пользователь не авторизован';
+        break;
+      case 404:
+        error = 'Ничего не найдено';
+        break;
+      case 500:
+        error = 'Ошибка сервера';
+        break;
+      default:
+        error = 'Cтатус ответа: ' + status;
+    }
+    errorText.textContent = error;
+
+    // Handlers of removing error message
+    var errorButton = errorNode.querySelector('.error__button');
+    var onErrorButton = function () {
+      main.removeChild(errorNode);
+      errorButton.removeEventListener('click', onErrorButton);
+    };
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        main.removeChild(errorNode);
+        document.removeEventListener('keydown', onEscPress);
+      }
+    };
+    var onArea = function () {
+      main.removeChild(errorNode);
+      errorNode.removeEventListener('click', onArea);
+    };
+    errorButton.addEventListener('click', onErrorButton);
+    document.addEventListener('keydown', onEscPress);
+    errorNode.addEventListener('click', onArea);
+  };
 })();
