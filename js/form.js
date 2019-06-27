@@ -7,7 +7,6 @@
   var timeout = adForm.querySelector('#timeout');
   var roomNumber = adForm.querySelector('#room_number');
   var capacity = adForm.querySelector('#capacity');
-  var main = document.querySelector('main');
 
   // default price value for flat
   price.setAttribute('min', '1000');
@@ -92,16 +91,9 @@
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
-  });
-})();
-
-
-(function () {
-  window.onSuccessHandler = function () {
     var main = document.querySelector('main');
     var ESC_KEYCODE = 27;
 
-    window.setActive(false);
     // Add success message
     var successTemplate = document.querySelector('#success')
     .content
@@ -124,6 +116,14 @@
     document.addEventListener('keydown', onEscPress);
     successNode.addEventListener('click', onArea);
 
+
+  });
+})();
+
+
+(function () {
+  window.onSuccessHandler = function () {
+    window.setActive(false);
   };
 })();
 

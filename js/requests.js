@@ -24,7 +24,6 @@
       });
 
       xhr.open(type, url);
-      console.log(xhr.requestMethod);
       xhr.send(data);
     };
   };
