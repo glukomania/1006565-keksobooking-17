@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var ESC_KEYCODE = 27;
   var request = function (type, url) {
     return function (data, onLoad, onError) {
       var xhr = new XMLHttpRequest();
@@ -14,7 +15,8 @@
           .content
           .querySelector('.error');
           var errorNode = errorDiv.cloneNode(true);
-          document.body.insertAdjacentElement('afterbegin', errorNode);
+          var main = document.querySelector('main');
+          main.insertAdjacentElement('afterbegin', errorNode);
           var errorText = errorNode.querySelector('.error__message');
 
           switch (xhr.status) {
@@ -34,6 +36,25 @@
               error = 'Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText;
           }
           errorText.textContent = error;
+
+          // Handler of clicking on the buttom 'refresh'
+          var errorButton = errorNode.querySelector('.error__button');
+          var onErrorButton = function () {
+            main.removeChild(errorNode);
+            errorButton.removeEventListener('click', onErrorButton);
+          };
+          var onEscPress = function (evt) {
+            if (evt.keyCode === ESC_KEYCODE) {
+              main.removeChild(errorNode);
+              document.removeEventListener('keydown', onEscPress);
+            }
+          };
+          var onArea = function () {
+            main.removeChild(errorNode);
+          };
+          errorButton.addEventListener('click', onErrorButton);
+          document.addEventListener('keydown', onEscPress);
+          errorNode.addEventListener('click', onArea);
         }
       };
 
@@ -52,7 +73,7 @@
     };
   };
   var sendDataUrl = 'https://js.dump.academy/keksobooking22';
-  var loadDataURL = 'https://js.dump.academy/keksobooking/data';
+  var loadDataURL = 'https://js.dump.academy/keksobooking/data1';
 
   window.send = request('POST', sendDataUrl);
   window.load = request('GET', loadDataURL);
