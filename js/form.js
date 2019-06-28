@@ -87,10 +87,19 @@
       capacity.item(3).selected = 'selected';
     }
   });
-
+  // var adFormSubmit = adForm.querySelector('.ad-form__submit');
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
+
+
+  });
+})();
+
+
+(function () {
+  window.onSuccessHandler = function () {
+
     var main = document.querySelector('main');
     var ESC_KEYCODE = 27;
 
@@ -106,24 +115,17 @@
     var onEscPress = function (evtKey) {
       if (evtKey.keyCode === ESC_KEYCODE) {
         main.removeChild(successNode);
+        window.setActive(false);
         document.removeEventListener('keydown', onEscPress);
       }
     };
     var onArea = function () {
       main.removeChild(successNode);
+      window.setActive(false);
       successNode.removeEventListener('click', onArea);
     };
     document.addEventListener('keydown', onEscPress);
     successNode.addEventListener('click', onArea);
-
-
-  });
-})();
-
-
-(function () {
-  window.onSuccessHandler = function () {
-    window.setActive(false);
   };
 })();
 

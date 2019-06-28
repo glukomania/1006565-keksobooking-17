@@ -7,7 +7,6 @@
       var requestHandler = function () {
         if (xhr.status === 200) {
           onLoad(xhr.response);
-
         } else {
           onError(xhr.status);
         }
@@ -27,8 +26,8 @@
       xhr.send(data);
     };
   };
-  var sendDataUrl = 'https://js.dump.academy/keksobooking1';
-  var loadDataURL = 'https://js.dump.academy/keksobooking/data1';
+  var sendDataUrl = 'https://js.dump.academy/keksobooking';
+  var loadDataURL = 'https://js.dump.academy/keksobooking/data';
 
   window.send = request('POST', sendDataUrl);
   window.load = request('GET', loadDataURL);
