@@ -12,6 +12,7 @@
   price.setAttribute('min', '1000');
   price.setAttribute('placeholder', '1000');
 
+
   // change price depending of property type
 
   var type = {
@@ -86,5 +87,94 @@
       capacity.item(3).selected = 'selected';
     }
   });
+  // var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
+  });
+})();
 
+
+(function () {
+  window.onSuccessHandler = function () {
+
+    var main = document.querySelector('main');
+    var ESC_KEYCODE = 27;
+
+    // Add success message
+    var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+    var successNode = successTemplate.cloneNode(true);
+    main.insertAdjacentElement('afterbegin', successNode);
+
+    // Handlers of removing success message
+
+    var onEscPress = function (evtKey) {
+      if (evtKey.keyCode === ESC_KEYCODE) {
+        main.removeChild(successNode);
+        window.setActive(false, true);
+        document.removeEventListener('keydown', onEscPress);
+      }
+    };
+    var onArea = function () {
+      main.removeChild(successNode);
+      window.setActive(false);
+      successNode.removeEventListener('click', onArea);
+    };
+    document.addEventListener('keydown', onEscPress);
+    successNode.addEventListener('click', onArea);
+  };
+})();
+
+(function () {
+  var main = document.querySelector('main');
+  var ESC_KEYCODE = 27;
+  window.errorHandler = function (status) {
+    var errorTemplate = document.querySelector('#error')
+          .content
+          .querySelector('.error');
+    var errorNode = errorTemplate.cloneNode(true);
+    var error;
+    main.insertAdjacentElement('afterbegin', errorNode);
+    var errorText = errorNode.querySelector('.error__message');
+
+    switch (status) {
+      case 400:
+        error = 'Неверный запрос';
+        break;
+      case 401:
+        error = 'Пользователь не авторизован';
+        break;
+      case 404:
+        error = 'Ничего не найдено';
+        break;
+      case 500:
+        error = 'Ошибка сервера';
+        break;
+      default:
+        error = 'Cтатус ответа: ' + status;
+    }
+    errorText.textContent = error;
+
+    // Handlers of removing error message
+    var errorButton = errorNode.querySelector('.error__button');
+    var onErrorButton = function () {
+      location.reload();
+      errorButton.removeEventListener('click', onErrorButton);
+    };
+    var onEscPress = function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        main.removeChild(errorNode);
+        document.removeEventListener('keydown', onEscPress);
+      }
+    };
+    var onArea = function () {
+      main.removeChild(errorNode);
+      errorNode.removeEventListener('click', onArea);
+    };
+    errorButton.addEventListener('click', onErrorButton);
+    document.addEventListener('keydown', onEscPress);
+    errorNode.addEventListener('click', onArea);
+  };
 })();
