@@ -57,7 +57,6 @@
   var textarea = adForm.querySelector('textarea');
   var mouseup = document.querySelector('.map__pin--main');
   var resetForm = adForm.querySelector('.ad-form__reset');
-  var roomNumber = adForm.querySelector('#room_number');
 
 
   window.setActive = function (isActive, isFirstOpen) {
@@ -113,7 +112,6 @@
         selectInit[i].disabled = true;
         // selectInit[i].selectedIndex = 0;
       }
-      roomNumber.selectedIndex = 0;
       resetForm.disabled = true;
       textarea.disabled = true;
       adFormSubmit.disabled = true;

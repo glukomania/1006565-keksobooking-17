@@ -92,12 +92,6 @@
     evt.preventDefault();
     window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
   });
-  // Reset the form
-  var resetForm = adForm.querySelector('.ad-form__reset');
-  var onResetLink = function () {
-    window.setActive(false, false);
-  };
-  resetForm.addEventListener('click', onResetLink);
 })();
 
 
