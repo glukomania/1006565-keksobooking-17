@@ -9,7 +9,6 @@
   for (var i = 1; i <= numberOfImages; i++) {
     randNonRepeating.push(i);
   }
-
 })();
 
 // set address
@@ -18,6 +17,7 @@
   window.setAddress = function (x, y) {
     var addressField = document.querySelector('#address');
     addressField.value = x + ', ' + y;
+    addressField.readOnly = true;
   };
 })();
 
@@ -29,7 +29,7 @@
 
   // Handlers of requests
 
-  var successhandler = function (pins) {
+  var successLoadHandler = function (pins) {
     var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('button');
@@ -56,15 +56,17 @@
   var selectInit = adForm.querySelectorAll('select');
   var textarea = adForm.querySelector('textarea');
   var mouseup = document.querySelector('.map__pin--main');
-  var isFirstOpen = true;
+  var resetForm = adForm.querySelector('.ad-form__reset');
+  var roomNumber = adForm.querySelector('#room_number');
 
-  window.setActive = function (isActive) {
+
+  window.setActive = function (isActive, isFirstOpen) {
 
 
     if (isActive === true) {
       // remove class .map--faded
       document.querySelector('.map').classList.remove('map--faded');
-      window.load(null, successhandler, window.errorHandler);
+      window.load(null, successLoadHandler, window.errorHandler);
 
       // Activation of form and its elements
       adForm.classList.remove('ad-form--disabled');
@@ -78,6 +80,14 @@
       textarea.removeAttribute('disabled');
       adFormSubmit.removeAttribute('disabled');
       isFirstOpen = false;
+
+      // Reset the form
+      resetForm.disabled = false;
+      var onResetLink = function () {
+        window.setActive(false, false);
+      };
+      resetForm.addEventListener('click', onResetLink);
+
     } else {
       if (isFirstOpen === false) {
         var pinsElementInDOM = document.querySelectorAll('.map__pin');
@@ -92,30 +102,31 @@
 
       document.querySelector('.map').classList.add('map--faded');
       adForm.classList.add('ad-form--disabled');
-      adFormPhoto.setAttribute('disabled', 'disabled');
+      adFormPhoto.disabled = true;
 
       for (i = 0; i < inputInit.length; i++) {
-        inputInit[i].setAttribute('disabled', 'disabled');
+        inputInit[i].disabled = true;
         inputInit[i].value = null;
       }
 
       for (i = 0; i < selectInit.length; i++) {
-        selectInit[i].setAttribute('disabled', 'disabled');
+        selectInit[i].disabled = true;
         // selectInit[i].selectedIndex = 0;
       }
-
-      textarea.setAttribute('disabled', 'disabled');
-      adFormSubmit.setAttribute('disabled', 'disabled');
+      roomNumber.selectedIndex = 0;
+      resetForm.disabled = true;
+      textarea.disabled = true;
+      adFormSubmit.disabled = true;
       window.setAddress(Math.round(mouseup.offsetLeft + MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.offsetTop + MAIN_ROUND_PIN_HEIGHT / 2));
     }
 
   };
 
-  window.setActive(false);
+  window.setActive(false, true);
 
   // set active mode!
   mouseup.addEventListener('mousedown', function () {
-    window.setActive(true);
+    window.setActive(true, false);
   });
 })();
 

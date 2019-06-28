@@ -91,9 +91,13 @@
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
-
-
   });
+  // Reset the form
+  var resetForm = adForm.querySelector('.ad-form__reset');
+  var onResetLink = function () {
+    window.setActive(false, false);
+  };
+  resetForm.addEventListener('click', onResetLink);
 })();
 
 
@@ -115,7 +119,7 @@
     var onEscPress = function (evtKey) {
       if (evtKey.keyCode === ESC_KEYCODE) {
         main.removeChild(successNode);
-        window.setActive(false);
+        window.setActive(false, true);
         document.removeEventListener('keydown', onEscPress);
       }
     };
