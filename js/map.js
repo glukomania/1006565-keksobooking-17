@@ -19,9 +19,9 @@
   var pinElementsSeen = mapPins.querySelectorAll('.pin');
   var pins = [];
   var housingType;
-  // var housingPrice;
+  var housingPrice;
   var housingRooms;
-  // var housingGuests;
+  var housingGuests;
 
   // remove old pins before new select
   var removePins = function () {
@@ -73,12 +73,12 @@
       }
       return it.offer.type === housingType;
     });
-    // var samePrice = pins.filter(function (it) {
-    //   if (housingPrice === 'any') {
-    //     window.render(pins);
-    //   }
-    //   return it.offer.price === housingPrice;
-    // });
+    var samePrice = pins.filter(function (it) {
+      if (housingPrice === 'any') {
+        window.render(pins);
+      }
+      return it.offer.price <= housingPrice; // тут доработать алгоритм интервалов
+    });
 
     var sameRooms = pins.filter(function (it) {
       if (housingRooms === 'any') {
@@ -87,12 +87,12 @@
       return it.offer.price === housingRooms;
     });
 
-    // var sameGuests = pins.filter(function (it) {
-    //   if (housingGuests === 'any') {
-    //     window.render(pins);
-    //   }
-    //   return it.offer.price === housingGuests;
-    // });
+    var sameGuests = pins.filter(function (it) {
+      if (housingGuests === 'any') {
+        window.render(pins);
+      }
+      return it.offer.price === housingGuests;
+    });
 
       // one.map(function (elem) {
       //   if (two.indexOf(elem) >= 0) {
@@ -105,9 +105,15 @@
       // });
 
     var test = [];
+    var result = [];
     test = sameHousingType.map(function (item) {
-      if (sameRooms.indexOf(item) >= 0) {
-        test.push(item);
+      if (samePrice.indexOf(item) >= 0) {
+        if (sameRooms.indexOf(item) >= 0) {
+          test.push(item);
+          if (sameGuests.indexOf(item) >= 0) {
+            result.push(item);
+          }
+        }
       }
     });
 
