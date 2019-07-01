@@ -19,9 +19,9 @@
   var pinElementsSeen = mapPins.querySelectorAll('.pin');
   var pins = [];
   var housingType;
-  var housingPrice;
+  // var housingPrice;
   var housingRooms;
-  var housingGuests;
+  // var housingGuests;
 
   // remove old pins before new select
   var removePins = function () {
