@@ -4,16 +4,16 @@
 
   // Handlers of requests
   var mapPins = document.querySelector('.map__pins');
-  var pinElementsSeen = mapPins.querySelectorAll('.pin');
-  var housingType;
-  var housingPrice;
-  var housingRooms;
-  var housingGuests;
+  var housingType = 'any';
+  var housingPrice = 'any';
+  var housingRooms = 'any';
+  var housingGuests = 'any';
 
-  // remove old pins before new select
+  // remove old backupData before new select
   var removePins = function () {
+    var pinElementsSeen = mapPins.querySelectorAll('.pin');
     for (var i = 0; i < pinElementsSeen.length; i++) {
-      mapPins.removeChild(pinElementsSeen[i]);
+      pinElementsSeen[i].remove();
     }
   };
   // reaction on housing type clicking
@@ -22,7 +22,7 @@
   housingTypeSelector.addEventListener('change', function () {
     removePins();
     housingType = housingTypeSelector.value;
-    window.debounce(window.updatePins);
+    window.debounce(window.updatePins());
   });
 
   // reaction on price clicking
@@ -31,7 +31,7 @@
   housingPriceSelector.addEventListener('change', function () {
     removePins();
     housingPrice = housingPriceSelector.value;
-    window.debounce(window.updatePins);
+    window.debounce(window.updatePins());
   });
 
   // reaction on number of rooms clicking
@@ -39,8 +39,8 @@
   var housingRoomsSelector = document.querySelector('#housing-rooms');
   housingRoomsSelector.addEventListener('change', function () {
     removePins();
-    housingRooms = housingRoomsSelector.valuer;
-    window.debounce(window.updatePins);
+    housingRooms = housingRoomsSelector.value;
+    window.debounce(window.updatePins());
   });
 
   // reaction on number of guests
@@ -48,63 +48,52 @@
   var housingGuestsSelector = document.querySelector('#housing-guests');
   housingGuestsSelector.addEventListener('change', function () {
     removePins();
-    housingGuests = housingGuestsSelector.valuer;
-    window.debounce(window.updatePins);
+    housingGuests = housingGuestsSelector.value;
+    console.log(housingGuests);
+    window.debounce(window.updatePins());
   });
 
-  window.updatePins = function (pins) {
-    var sameHousingType = pins.filter(function (it) {
-      removePins();
+  var backupData;
+
+  window.updatePins = function (data) {
+
+    // backup of data;
+    if (data) {
+      backupData = data;
+    }
+
+    // functions of filters
+
+    var filterType = function (it) {
       if (housingType === 'any') {
-        window.render(pins);
+        return true;
       }
       return it.offer.type === housingType;
-    });
-    var samePrice = pins.filter(function (it) {
+    };
+
+    var filterPrice = function (it) {
       if (housingPrice === 'any') {
-        window.render(pins);
+        return true;
       }
       return it.offer.price <= housingPrice; // тут доработать алгоритм интервалов
-    });
+    };
 
-    var sameRooms = pins.filter(function (it) {
+    var filterRooms = function (it) {
       if (housingRooms === 'any') {
-        window.render(pins);
+        return true;
       }
-      return it.offer.price === housingRooms;
-    });
+      return housingRooms === it.offer.rooms.toString();
+    };
 
-    var sameGuests = pins.filter(function (it) {
+    var filterGuests = function (it) {
       if (housingGuests === 'any') {
-        window.render(pins);
+        return true;
       }
-      return it.offer.price === housingGuests;
-    });
+      return housingGuests === it.offer.guests.toString();
+    };
 
-      // one.map(function (elem) {
-      //   if (two.indexOf(elem) >= 0) {
-      //     intersection1.push(elem);
-      //     if (three.indexOf(elem) >= 0) {
-      //       intersection2.push(elem);
-      //     }
-      //   }
-      //   return intersection2;
-      // });
+    var result = backupData.filter(filterType).filter(filterRooms).filter(filterGuests);
 
-    var test = [];
-    var result = [];
-    test = sameHousingType.map(function (item) {
-      if (samePrice.indexOf(item) >= 0) {
-        if (sameRooms.indexOf(item) >= 0) {
-          test.push(item);
-          if (sameGuests.indexOf(item) >= 0) {
-            result.push(item);
-          }
-        }
-      }
-    });
-
-    window.render(test);
+    window.render(result);
   };
-
 })();

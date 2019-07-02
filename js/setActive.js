@@ -3,7 +3,6 @@
 (function () {
 
   var successLoadHandler = function (data) {
-    window.render(data);
     window.updatePins(data);
   };
 
