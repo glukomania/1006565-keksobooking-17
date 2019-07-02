@@ -65,7 +65,11 @@
 
       for (i = 0; i < inputInit.length; i++) {
         inputInit[i].disabled = true;
-        inputInit[i].value = null;
+        if (inputInit[i].type !== 'checkbox') {
+          inputInit[i].value = null;
+        } else if (inputInit[i].checked) {
+          inputInit[i].setAttribute('checked', false);
+        }
       }
 
       for (i = 0; i < selectInit.length; i++) {

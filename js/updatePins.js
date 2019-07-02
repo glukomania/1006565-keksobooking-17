@@ -83,12 +83,12 @@
 
       // one.map(function (elem) {
       //   if (two.indexOf(elem) >= 0) {
-      //     res.push(elem);
+      //     intersection1.push(elem);
       //     if (three.indexOf(elem) >= 0) {
-      //       rres.push(elem);
+      //       intersection2.push(elem);
       //     }
       //   }
-      //   return rres;
+      //   return intersection2;
       // });
 
     var test = [];
