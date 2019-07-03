@@ -1,5 +1,7 @@
 'use strict';
 
+// utilite function of removing DOM elements
+
 (function () {
   window.removeElement = {
 
