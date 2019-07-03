@@ -79,12 +79,7 @@
         }
       }
 
-      // remove the previous card
-      var cardNode = document.querySelector('.map__card');
-      if (cardNode) {
-        cardNode.remove();
-      }
-      //
+      window.removeElement.removeCard();
 
       // Display the card
       mapPins.appendChild(card);
