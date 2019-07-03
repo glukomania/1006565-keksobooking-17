@@ -3,7 +3,6 @@
 (function () {
 
   // Handlers of requests
-  var mapPins = document.querySelector('.map__pins');
   var housingType = 'any';
   var housingPrice = 'any';
   var housingRooms = 'any';
