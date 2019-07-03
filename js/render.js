@@ -6,6 +6,7 @@
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   var mapPins = document.querySelector('.map__pins');
+  var map = document.querySelector('.map');
   var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('button');
@@ -80,9 +81,8 @@
       }
 
       window.removeElement.removeCard();
-
       // Display the card
-      mapPins.appendChild(card);
+      map.insertBefore(card, map.children[1]);
 
       // Close the card by pressing X
       var popupClose = card.querySelector('.popup__close');
