@@ -119,7 +119,7 @@
     };
     var onArea = function () {
       main.removeChild(successNode);
-      window.setActive(false);
+      window.setActive(false, true);
       successNode.removeEventListener('click', onArea);
     };
     document.addEventListener('keydown', onEscPress);
