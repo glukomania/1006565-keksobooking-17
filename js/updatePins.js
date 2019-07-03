@@ -49,7 +49,6 @@
   housingGuestsSelector.addEventListener('change', function () {
     removePins();
     housingGuests = housingGuestsSelector.value;
-    console.log(housingGuests);
     window.debounce(window.updatePins());
   });
 
@@ -75,7 +74,7 @@
       if (housingPrice === 'any') {
         return true;
       }
-      return it.offer.price <= housingPrice; // тут доработать алгоритм интервалов
+      return it.offer.price.toString() <= housingPrice; // тут доработать алгоритм интервалов
     };
 
     var filterRooms = function (it) {
@@ -92,7 +91,7 @@
       return housingGuests === it.offer.guests.toString();
     };
 
-    var result = backupData.filter(filterType).filter(filterRooms).filter(filterGuests);
+    var result = backupData.filter(filterType).filter(filterPrice).filter(filterRooms).filter(filterGuests);
 
     window.render(result);
   };
