@@ -92,6 +92,15 @@
     evt.preventDefault();
     window.send(new FormData(adForm), window.onSuccessHandler, window.errorHandler);
   });
+
+  // Reset the form
+  var resetForm = adForm.querySelector('.ad-form__reset');
+  resetForm.disabled = false;
+  var onResetLink = function () {
+    window.setActive(false);
+  };
+  resetForm.addEventListener('click', onResetLink);
+
 })();
 
 
@@ -113,13 +122,13 @@
     var onEscPress = function (evtKey) {
       if (evtKey.keyCode === ESC_KEYCODE) {
         main.removeChild(successNode);
-        window.setActive(false, true);
+        window.setActive(false);
         document.removeEventListener('keydown', onEscPress);
       }
     };
     var onArea = function () {
       main.removeChild(successNode);
-      window.setActive(false, true);
+      window.setActive(false);
       successNode.removeEventListener('click', onArea);
     };
     document.addEventListener('keydown', onEscPress);
@@ -130,6 +139,7 @@
 (function () {
   var main = document.querySelector('main');
   var ESC_KEYCODE = 27;
+
   window.errorHandler = function (status) {
     var errorTemplate = document.querySelector('#error')
           .content

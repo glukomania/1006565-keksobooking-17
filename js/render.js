@@ -100,8 +100,9 @@
       document.addEventListener('keydown', onEscPress);
 
     });
-    return pinElement;
-
+    if (pin.offer) {
+      return pinElement;
+    }
   };
 
   window.render = function (data) {
