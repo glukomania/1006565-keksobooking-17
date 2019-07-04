@@ -121,8 +121,23 @@
   window.setActive(false, true);
 
   // set active mode!
-  mouseup.addEventListener('mousedown', function () {
-    window.setActive(true, false);
+  mouseup.addEventListener('mouseup', function () {
+    window.setActive(true);
   });
+
+  var onPinClick = function () {
+    window.setActive(true);
+    mouseup.removeEventListener('click', onPinClick);
+  };
+
+  mouseup.addEventListener('click', onPinClick);
+
+  var onPinEnterPress = function (evt) {
+    if (evt.keyCode === 13) {
+      window.setActive(true);
+      mouseup.removeEventListener('keydown', onPinEnterPress);
+    }
+  };
+  mouseup.addEventListener('keydown', onPinEnterPress);
 })();
 
