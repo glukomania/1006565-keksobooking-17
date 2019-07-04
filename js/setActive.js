@@ -103,8 +103,6 @@
       timein.selectedIndex = '0';
       timeout.selectedIndex = '0';
 
-
-
       // disable and clear textarea
       textarea.disabled = true;
       textarea.value = '';
