@@ -140,17 +140,16 @@
       };
       return filterFunction;
     };
+    var filterWifi = filterFeature('wifi', isWifi);
+    var filterDishwasher = filterFeature('dishwasher', isDishwasher);
+    var filterParking = filterFeature('parking', isParking);
+    var filterWasher = filterFeature('washer', isWasher);
+    var filterElevator = filterFeature('elevator', isElevator);
+    var filterConditioner = filterFeature('conditioner', isConditioner);
 
-    var result = backupData.filter(filterType)
-    .filter(filterPrice)
-    .filter(filterRooms)
-    .filter(filterGuests)
-    .filter(filterFeature('wifi', isWifi))
-    .filter(filterFeature('dishwasher', isDishwasher))
-    .filter(filterFeature('parking', isParking))
-    .filter(filterFeature('washer', isWasher))
-    .filter(filterFeature('elevator', isElevator))
-    .filter(filterFeature('conditioner', isConditioner));
+    var result = backupData.filter(function (elem) {
+      return filterType(elem) && filterPrice(elem) && filterRooms(elem) && filterGuests(elem) && filterWifi(elem) && filterDishwasher(elem) && filterParking(elem) && filterWasher(elem) && filterElevator(elem) && filterConditioner(elem);
+    });
 
     window.render(result);
   };
