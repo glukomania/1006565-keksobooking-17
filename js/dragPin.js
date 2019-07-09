@@ -1,5 +1,6 @@
 'use strict';
-// Drug'n'drop of the main pin
+
+/* DRUG'N'DROP OF THE MAIN PIN */
 
 (function () {
   var MAIN_PIN_WIDTH = 65;
@@ -29,10 +30,10 @@
       };
 
       // Set the limits for pin moving
-      if (mouseup.offsetTop > 630) {
-        mouseup.style.top = 630 + 'px';
-      } else if (mouseup.offsetTop < (130 - MAIN_PIN_HEIGHT / 2)) {
-        mouseup.style.top = (130 - MAIN_PIN_HEIGHT / 2) + 'px';
+      if (mouseup.offsetTop > (630 - MAIN_PIN_HEIGHT)) {
+        mouseup.style.top = (630 - MAIN_PIN_HEIGHT) + 'px';
+      } else if (mouseup.offsetTop < (130 - MAIN_PIN_HEIGHT)) {
+        mouseup.style.top = (130 - MAIN_PIN_HEIGHT) + 'px';
       } else {
         mouseup.style.top = (mouseup.offsetTop - shift.y) + 'px';
       }

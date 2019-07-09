@@ -3,56 +3,83 @@
 (function () {
 
   // Handlers of requests
-  var mapPins = document.querySelector('.map__pins');
+  var featureWifi = document.querySelector('#filter-wifi');
+  var featureDishwasher = document.querySelector('#filter-dishwasher');
+  var featureParking = document.querySelector('#filter-parking');
+  var featureWasher = document.querySelector('#filter-washer');
+  var featureElevator = document.querySelector('#filter-elevator');
+  var featureConditioner = document.querySelector('#filter-conditioner');
+
   var housingType = 'any';
   var housingPrice = 'any';
   var housingRooms = 'any';
   var housingGuests = 'any';
-
-  // remove old backupData before new select
-  var removePins = function () {
-    var pinElementsSeen = mapPins.querySelectorAll('.pin');
-    for (var i = 0; i < pinElementsSeen.length; i++) {
-      pinElementsSeen[i].remove();
-    }
-  };
-  // reaction on housing type clicking
-
-  var housingTypeSelector = document.querySelector('#housing-type');
-  housingTypeSelector.addEventListener('change', function () {
-    removePins();
-    housingType = housingTypeSelector.value;
-    window.debounce(window.updatePins());
-  });
-
-  // reaction on price clicking
-
-  var housingPriceSelector = document.querySelector('#housing-price');
-  housingPriceSelector.addEventListener('change', function () {
-    removePins();
-    housingPrice = housingPriceSelector.value;
-    window.debounce(window.updatePins());
-  });
-
-  // reaction on number of rooms clicking
-
-  var housingRoomsSelector = document.querySelector('#housing-rooms');
-  housingRoomsSelector.addEventListener('change', function () {
-    removePins();
-    housingRooms = housingRoomsSelector.value;
-    window.debounce(window.updatePins());
-  });
-
-  // reaction on number of guests
-
-  var housingGuestsSelector = document.querySelector('#housing-guests');
-  housingGuestsSelector.addEventListener('change', function () {
-    removePins();
-    housingGuests = housingGuestsSelector.value;
-    window.debounce(window.updatePins());
-  });
-
+  var isWifi = false;
+  var isDishwasher = false;
+  var isParking = false;
+  var isWasher = false;
+  var isElevator = false;
+  var isConditioner = false;
   var backupData;
+
+
+  /* REACTION TO DROPDOWN FILTERS */
+
+  // Listeners of selectors
+  var mapFilters = document.querySelector('.map__filters');
+  mapFilters.addEventListener('change', function (evt) {
+    var target = evt.target;
+    switch (target.dataset.filter) {
+      case 'type':
+        housingType = target.value;
+        break;
+      case 'price':
+        housingPrice = target.value;
+        break;
+      case 'rooms':
+        housingRooms = target.value;
+        break;
+      case 'guests':
+        housingGuests = target.value;
+        break;
+      case 'wifi':
+        isWifi = checkFeature(featureWifi);
+        break;
+      case 'dishwasher':
+        isDishwasher = checkFeature(featureDishwasher);
+        break;
+      case 'parking':
+        isParking = checkFeature(featureParking);
+        break;
+      case 'washer':
+        isWasher = checkFeature(featureWasher);
+        break;
+      case 'elevator':
+        isElevator = checkFeature(featureElevator);
+        break;
+      case 'conditioner':
+        isConditioner = checkFeature(featureConditioner);
+        break;
+    }
+    window.debounce(function () {
+      window.removeElement.removePins();
+      window.removeElement.removeCard();
+      window.updatePins();
+    });
+  });
+
+  // check checkbox function
+  var checkFeature = function (featureButton) {
+    var value;
+    if (featureButton.checked) {
+      value = true;
+    } else {
+      value = false;
+    }
+    return value;
+  };
+
+  /* UPDATE PINS */
 
   window.updatePins = function (data) {
 
@@ -61,7 +88,7 @@
       backupData = data;
     }
 
-    // functions of filters
+    // functions of selector filters
 
     var filterType = function (it) {
       if (housingType === 'any') {
@@ -73,8 +100,14 @@
     var filterPrice = function (it) {
       if (housingPrice === 'any') {
         return true;
+      } else if (housingPrice === 'low') {
+        return it.offer.price <= 10000;
+      } else if (housingPrice === 'middle') {
+        return it.offer.price > 10000 && it.offer.price < 50000;
+      } else if (housingPrice === 'high') {
+        return it.offer.price > 50000;
       }
-      return it.offer.price.toString() <= housingPrice; // тут доработать алгоритм интервалов
+      return true;
     };
 
     var filterRooms = function (it) {
@@ -91,8 +124,28 @@
       return housingGuests === it.offer.guests.toString();
     };
 
-    var result = backupData.filter(filterType).filter(filterPrice).filter(filterRooms).filter(filterGuests);
+    // function of filtering features
+    var filterFeature = function (featureName, isFeature) {
+      var filterFunction = function (it) {
+        if (isFeature === false) {
+          return true;
+        }
+        return it.offer.features.indexOf(featureName) >= 0;
+      };
+      return filterFunction;
+    };
 
-    window.render(result);
+    var filterWifi = filterFeature('wifi', isWifi);
+    var filterDishwasher = filterFeature('dishwasher', isDishwasher);
+    var filterParking = filterFeature('parking', isParking);
+    var filterWasher = filterFeature('washer', isWasher);
+    var filterElevator = filterFeature('elevator', isElevator);
+    var filterConditioner = filterFeature('conditioner', isConditioner);
+
+    var result = backupData.filter(function (elem) {
+      return filterType(elem) && filterPrice(elem) && filterRooms(elem) && filterGuests(elem) && filterWifi(elem) && filterDishwasher(elem) && filterParking(elem) && filterWasher(elem) && filterElevator(elem) && filterConditioner(elem);
+    });
+
+    window.debounce(window.render(result));
   };
 })();

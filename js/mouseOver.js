@@ -1,5 +1,7 @@
 'use strict';
 
+/* MODULE MOVES THE PIN TO THE FROM, WHEN THE MOUSE IS OVER */
+
 // mouse over the pin
 (function () {
   var mapPins = document.querySelector('.map__pins');
