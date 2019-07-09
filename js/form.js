@@ -105,7 +105,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.send(new FormData(adForm), window.onSuccessHandle, window.onError);
+    window.send(new FormData(adForm), window.onSuccess, window.onError);
   });
 
   // Reset the form
