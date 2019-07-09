@@ -1,4 +1,7 @@
 'use strict';
+
+/* MODULE OF REQUEST CREATION */
+
 (function () {
   var request = function (type, url) {
     return function (data, onLoad, onError) {
@@ -19,14 +22,14 @@
       });
 
       xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+        onError('Запрос не успел выполниться за ' + (xhr.timeout / 1000) + 'секунд');
       });
 
       xhr.open(type, url);
       xhr.send(data);
     };
   };
-  var sendDataUrl = 'https://js.dump.academy/keksobooking22';
+  var sendDataUrl = 'https://js.dump.academy/keksobooking';
   var loadDataURL = 'https://js.dump.academy/keksobooking/data';
 
   window.send = request('POST', sendDataUrl);

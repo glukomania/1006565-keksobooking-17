@@ -1,16 +1,12 @@
 'use strict';
 
+/* MODULE SETS ACTIVE OR INACTIVE MODE */
+
 (function () {
-
-  var successLoadHandler = function (data) {
-    window.updatePins(data);
-  };
-
-  // SET INITIAL (disabled mode) STATE of the page
-  var adForm = document.querySelector('.ad-form');
-  var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var MAIN_ROUND_PIN_WIDTH = 35;
   var MAIN_ROUND_PIN_HEIGHT = 35;
+  var adForm = document.querySelector('.ad-form');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormPhoto = adForm.querySelector('.ad-form__field');
   var adFormPhotoDisplay = adForm.querySelector('.ad-form-header__preview > img');
   var inputInit = adForm.querySelectorAll('input');
@@ -19,12 +15,16 @@
   var mouseup = document.querySelector('.map__pin--main');
   var resetForm = adForm.querySelector('.ad-form__reset');
 
+  var onSuccessLoad = function (data) {
+    window.updatePins(data);
+  };
+
   window.setActive = function (isActive) {
 
     if (isActive === true) {
       // remove class .map--faded
       document.querySelector('.map').classList.remove('map--faded');
-      window.load(null, successLoadHandler, window.errorHandler);
+      window.load(null, onSuccessLoad, window.onError);
 
       // Activation of form
       adForm.classList.remove('ad-form--disabled');
@@ -88,7 +88,6 @@
         selectInit[i].disabled = true;
       }
 
-      // set selectors to deafult
       var propertyType = adForm.querySelector('#type');
       var prorertyPrice = adForm.querySelector('#price');
       var roomNumber = adForm.querySelector('#room_number');
@@ -96,6 +95,7 @@
       var timein = adForm.querySelector('#timein');
       var timeout = adForm.querySelector('#timeout');
 
+      // set selectors to deafult
       propertyType.selectedIndex = '1';
       prorertyPrice.placeholder = '1000';
       roomNumber.selectedIndex = '0';
@@ -116,19 +116,12 @@
 
   };
 
-  window.setActive(false, true);
+  window.setActive(false);
 
   // set active mode!
   mouseup.addEventListener('mouseup', function () {
     window.setActive(true);
   });
-
-  var onPinClick = function () {
-    window.setActive(true);
-    mouseup.removeEventListener('click', onPinClick);
-  };
-
-  mouseup.addEventListener('click', onPinClick);
 
   var onPinEnterPress = function (evt) {
     if (evt.keyCode === 13) {

@@ -22,6 +22,7 @@
   var isConditioner = false;
   var backupData;
 
+
   /* REACTION TO DROPDOWN FILTERS */
 
   // Listeners of selectors
@@ -41,29 +42,6 @@
       case 'guests':
         housingGuests = target.value;
         break;
-    }
-    window.removeElement.removePins();
-    window.removeElement.removeCard();
-    window.debounce(window.updatePins());
-  });
-
-  /* REACTION TO FEATURE CHOICE */
-
-  // check checkbox function
-  var checkFeature = function (featureButton) {
-    var value;
-    if (featureButton.checked) {
-      value = true;
-    } else {
-      value = false;
-    }
-    return value;
-  };
-
-  // Listeners of checkboxes
-  mapFilters.addEventListener('click', function (evt) {
-    var target = evt.target;
-    switch (target.dataset.filter) {
       case 'wifi':
         isWifi = checkFeature(featureWifi);
         break;
@@ -83,7 +61,23 @@
         isConditioner = checkFeature(featureConditioner);
         break;
     }
+    window.debounce(function () {
+      window.removeElement.removePins();
+      window.removeElement.removeCard();
+      window.updatePins();
+    });
   });
+
+  // check checkbox function
+  var checkFeature = function (featureButton) {
+    var value;
+    if (featureButton.checked) {
+      value = true;
+    } else {
+      value = false;
+    }
+    return value;
+  };
 
   /* UPDATE PINS */
 
@@ -140,6 +134,7 @@
       };
       return filterFunction;
     };
+
     var filterWifi = filterFeature('wifi', isWifi);
     var filterDishwasher = filterFeature('dishwasher', isDishwasher);
     var filterParking = filterFeature('parking', isParking);
@@ -151,6 +146,6 @@
       return filterType(elem) && filterPrice(elem) && filterRooms(elem) && filterGuests(elem) && filterWifi(elem) && filterDishwasher(elem) && filterParking(elem) && filterWasher(elem) && filterElevator(elem) && filterConditioner(elem);
     });
 
-    window.render(result);
+    window.debounce(window.render(result));
   };
 })();

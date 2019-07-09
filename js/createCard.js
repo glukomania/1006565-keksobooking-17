@@ -9,6 +9,8 @@
   var map = document.querySelector('.map');
 
   window.createCard = function (pin) {
+
+    // find a template node
     var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('article');
@@ -61,13 +63,13 @@
     // features to card
     var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var cardFeatures = card.querySelector('.list');
-    var lis = card.querySelectorAll('.feature');
+    var featureLis = card.querySelectorAll('.feature');
     if (pin.offer.features.length === 0) {
       cardFeatures.style.display = 'none';
     }
     for (i = 0; i < pin.offer.features.length; i++) {
       if (pin.offer.features[i].indexOf(features[i]) === -1) {
-        lis[i].style.display = 'none';
+        featureLis[i].style.display = 'none';
       }
     }
 
@@ -77,6 +79,8 @@
 
     // Display the card
     map.insertBefore(card, map.children[1]);
+
+    /* CLOSING */
 
     // Close the card by pressing X
     var popupClose = card.querySelector('.popup__close');

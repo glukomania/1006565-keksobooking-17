@@ -1,5 +1,7 @@
 'use strict';
 
+/* MODULE HANDLE IMAGES UPLOADING IN THE FORM */
+
 (function () {
 
   // chooser of avatar
@@ -14,7 +16,6 @@
 
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
-
     });
 
     if (matches) {
@@ -40,7 +41,6 @@
 
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
-
     });
 
     if (matches) {
@@ -62,8 +62,6 @@
 
       reader.readAsDataURL(file);
     }
-
   });
-
 
 })();

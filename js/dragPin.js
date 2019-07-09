@@ -1,5 +1,6 @@
 'use strict';
-// Drug'n'drop of the main pin
+
+/* DRUG'N'DROP OF THE MAIN PIN */
 
 (function () {
   var MAIN_PIN_WIDTH = 65;

@@ -1,14 +1,14 @@
 'use strict';
 
-// utilite function of removing DOM elements
+/* UTILITE FUNCTION, REMOVING ELEMENTS FROM DOM */
 
 (function () {
   window.removeElement = {
 
     removePins: function () {
-      var pinElementsSeen = document.querySelectorAll('.pin');
-      for (var i = 0; i < pinElementsSeen.length; i++) {
-        pinElementsSeen[i].remove();
+      var displayedPinElements = document.querySelectorAll('.pin');
+      for (var i = 0; i < displayedPinElements.length; i++) {
+        displayedPinElements[i].remove();
       }
     },
 
