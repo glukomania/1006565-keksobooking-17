@@ -68,7 +68,7 @@
       cardFeatures.style.display = 'none';
     }
     for (i = 0; i < pin.offer.features.length; i++) {
-      if (pin.offer.features[i].indexOf(features[i]) === -1) {
+      if (pin.offer.features.indexOf(features[i]) === -1) {
         featureLis[i].style.display = 'none';
       }
     }
