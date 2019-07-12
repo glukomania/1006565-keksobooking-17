@@ -15,10 +15,10 @@
 
   // check that file is image
   var matchesFileType = function (file) {
-    FILE_TYPES.some(function (it) {
+    var matches = FILE_TYPES.some(function (it) {
       return file.name.toLowerCase().endsWith(it);
     });
-    return file;
+    return matches;
   };
 
   // function of adding of tag img depending of the case
@@ -41,8 +41,7 @@
   // avatar upload by click
   avatarChooser.addEventListener('change', function () {
     var file = avatarChooser.files[0];
-
-    if (matchesFileType(file) === true) {
+    if (matchesFileType(file)) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
