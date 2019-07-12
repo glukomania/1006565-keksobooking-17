@@ -5,6 +5,8 @@
 (function () {
   var MAIN_ROUND_PIN_WIDTH = 35;
   var MAIN_ROUND_PIN_HEIGHT = 35;
+  var MAIN_PIN_DEFAULT_X = 570;
+  var MAIN_PIN_DEFAULT_Y = 375;
   var adForm = document.querySelector('.ad-form');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormPhoto = adForm.querySelector('.ad-form__field');
@@ -14,6 +16,12 @@
   var textarea = adForm.querySelector('textarea');
   var mouseup = document.querySelector('.map__pin--main');
   var resetForm = adForm.querySelector('.ad-form__reset');
+  var propertyType = adForm.querySelector('#type');
+  var prorertyPrice = adForm.querySelector('#price');
+  var roomNumber = adForm.querySelector('#room_number');
+  var capacity = adForm.querySelector('#capacity');
+  var timein = adForm.querySelector('#timein');
+  var timeout = adForm.querySelector('#timeout');
 
   var onSuccessLoad = function (data) {
     window.updatePins(data);
@@ -46,16 +54,15 @@
       adFormSubmit.removeAttribute('disabled');
 
     } else {
+      window.removeElement.removeCard();
+      window.removeElement.removePins();
 
-      // hide pins if they are
-      var pinsElementInDOM = document.querySelectorAll('.pin');
-      for (i = 0; i < pinsElementInDOM.length; i++) {
-        pinsElementInDOM[i].style.visibility = 'hidden';
-        mouseup.style.visibility = 'visible';
-        mouseup.style.left = '570px';
-        mouseup.style.top = '375px';
-        window.setAddress('570', '375');
-      }
+      // return main pin to default place;
+      mouseup.style.visibility = 'visible';
+      mouseup.style.left = MAIN_PIN_DEFAULT_X + 'px';
+      mouseup.style.top = MAIN_PIN_DEFAULT_Y + 'px';
+      window.setAddress(MAIN_PIN_DEFAULT_X, MAIN_PIN_DEFAULT_Y);
+
       // disable the map and the form
       document.querySelector('.map').classList.add('map--faded');
       adForm.classList.add('ad-form--disabled');
@@ -87,13 +94,6 @@
       for (i = 0; i < selectInit.length; i++) {
         selectInit[i].disabled = true;
       }
-
-      var propertyType = adForm.querySelector('#type');
-      var prorertyPrice = adForm.querySelector('#price');
-      var roomNumber = adForm.querySelector('#room_number');
-      var capacity = adForm.querySelector('#capacity');
-      var timein = adForm.querySelector('#timein');
-      var timeout = adForm.querySelector('#timeout');
 
       // set selectors to deafult
       propertyType.selectedIndex = '1';

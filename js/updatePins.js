@@ -153,7 +153,6 @@
   var filterElevator = filterFeature('elevator');
   var filterConditioner = filterFeature('conditioner');
 
-
   /* UPDATE PINS */
 
   window.updatePins = function (data) {
