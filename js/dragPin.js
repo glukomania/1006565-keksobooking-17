@@ -5,6 +5,8 @@
 (function () {
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 87;
+  var MAP_HEIGHT_MIN = 130;
+  var MAP_HEIGHT_MAX = 630;
   var mouseup = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
@@ -30,17 +32,17 @@
       };
 
       // Set the limits for pin moving
-      if (mouseup.offsetTop > (630 - MAIN_PIN_HEIGHT)) {
-        mouseup.style.top = (630 - MAIN_PIN_HEIGHT) + 'px';
-      } else if (mouseup.offsetTop < (130 - MAIN_PIN_HEIGHT)) {
-        mouseup.style.top = (130 - MAIN_PIN_HEIGHT) + 'px';
+      if (mouseup.offsetTop > (MAP_HEIGHT_MAX - MAIN_PIN_HEIGHT)) {
+        mouseup.style.top = (MAP_HEIGHT_MAX - MAIN_PIN_HEIGHT) + 'px';
+      } else if (mouseup.offsetTop < (MAP_HEIGHT_MIN - MAIN_PIN_HEIGHT)) {
+        mouseup.style.top = (MAP_HEIGHT_MIN - MAIN_PIN_HEIGHT) + 'px';
       } else {
         mouseup.style.top = (mouseup.offsetTop - shift.y) + 'px';
       }
-      if (mouseup.offsetLeft >= (mapPins.offsetWidth - MAIN_PIN_WIDTH / 2)) {
-        mouseup.style.left = (mapPins.offsetWidth - MAIN_PIN_WIDTH / 2 - 1) + 'px'; // Here there's amagic number '- 1', which is really magic, because without it the pin doesn't wont to get out of the side =(
-      } else if (mouseup.offsetLeft <= 0 - (MAIN_PIN_WIDTH / 2)) {
-        mouseup.style.left = (0 - (MAIN_PIN_WIDTH / 2)) + 'px';
+      if (mouseup.offsetLeft > (mapPins.offsetWidth - Math.round(MAIN_PIN_WIDTH / 2))) {
+        mouseup.style.left = (mapPins.offsetWidth - Math.round(MAIN_PIN_WIDTH / 2)) + 'px';
+      } else if (mouseup.offsetLeft < 0 - Math.round(MAIN_PIN_WIDTH / 2)) {
+        mouseup.style.left = (0 - Math.round(MAIN_PIN_WIDTH / 2)) + 'px';
       } else {
         mouseup.style.left = (mouseup.offsetLeft - shift.x) + 'px';
       }

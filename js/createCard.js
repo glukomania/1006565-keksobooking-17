@@ -61,15 +61,15 @@
     }
 
     // features to card
-    var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+    var allFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
     var cardFeatures = card.querySelector('.list');
-    var featureLis = card.querySelectorAll('.feature');
+    var popupFeatures = card.querySelectorAll('.feature');
     if (pin.offer.features.length === 0) {
       cardFeatures.style.display = 'none';
     }
     for (i = 0; i < pin.offer.features.length; i++) {
-      if (pin.offer.features.indexOf(features[i]) === -1) {
-        featureLis[i].style.display = 'none';
+      if (pin.offer.features.indexOf(allFeatures[i]) === -1) {
+        popupFeatures[i].style.display = 'none';
       }
     }
 

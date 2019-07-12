@@ -119,7 +119,7 @@
   window.setActive(false);
 
   // set active mode!
-  mouseup.addEventListener('mouseup', function () {
+  mouseup.addEventListener('mousedown', function () {
     window.setActive(true);
   });
 
