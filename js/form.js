@@ -46,19 +46,19 @@
   var times = ['12:00', '13:00', '14:00'];
 
   timein.addEventListener('change', function () {
-    for (var i = 0; i < times.length; i++) {
-      if (timein.value === times[i]) {
-        timeout.selectedIndex = i;
+    times.forEach(function (item, index) {
+      if (timein.value === item) {
+        timeout.selectedIndex = index;
       }
-    }
+    });
   });
 
   timeout.addEventListener('change', function () {
-    for (var i = 0; i < times.length; i++) {
-      if (timeout.value === times[i]) {
-        timein.selectedIndex = i;
+    times.forEach(function (item, index) {
+      if (timeout.value === item) {
+        timein.selectedIndex = index;
       }
-    }
+    });
   });
 
   /* VALIDATION OF CAPACITY DEPENDING ON ROOM NUMBER */
@@ -105,7 +105,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.send(new FormData(adForm), window.onSuccess, window.onError);
+    window.requests.send(new FormData(adForm), window.onSuccess, window.onError);
   });
 
   // Reset the form

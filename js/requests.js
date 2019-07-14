@@ -8,7 +8,7 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
       var requestHandler = function () {
-        if (xhr.status === 200) {
+        if (xhr.status === window.constants.SUCCESS_STATUS) {
           onLoad(xhr.response);
         } else {
           onError(xhr.status);
@@ -32,6 +32,8 @@
   var sendDataUrl = 'https://js.dump.academy/keksobooking';
   var loadDataURL = 'https://js.dump.academy/keksobooking/data';
 
-  window.send = request('POST', sendDataUrl);
-  window.load = request('GET', loadDataURL);
+  window.requests = {
+    send: request('POST', sendDataUrl),
+    load: request('GET', loadDataURL)
+  };
 })();

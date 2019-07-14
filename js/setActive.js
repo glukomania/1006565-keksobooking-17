@@ -3,16 +3,12 @@
 /* MODULE SETS ACTIVE OR INACTIVE MODE */
 
 (function () {
-  var MAIN_ROUND_PIN_WIDTH = 35;
-  var MAIN_ROUND_PIN_HEIGHT = 35;
-  var MAIN_PIN_DEFAULT_X = 570;
-  var MAIN_PIN_DEFAULT_Y = 375;
   var adForm = document.querySelector('.ad-form');
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormPhoto = adForm.querySelector('.ad-form__field');
   var adFormPhotoDisplay = adForm.querySelector('.ad-form-header__preview > img');
-  var inputInit = adForm.querySelectorAll('input');
-  var selectInit = adForm.querySelectorAll('select');
+  var initialInputs = adForm.querySelectorAll('input');
+  var initialSelects = adForm.querySelectorAll('select');
   var textarea = adForm.querySelector('textarea');
   var mouseup = document.querySelector('.map__pin--main');
   var resetForm = adForm.querySelector('.ad-form__reset');
@@ -32,7 +28,7 @@
     if (isActive === true) {
       // remove class .map--faded
       document.querySelector('.map').classList.remove('map--faded');
-      window.load(null, onSuccessLoad, window.onError);
+      window.requests.load(null, onSuccessLoad, window.onError);
 
       // Activation of form
       adForm.classList.remove('ad-form--disabled');
@@ -40,12 +36,12 @@
       // Activation of fields
 
       adFormPhoto.removeAttribute('disabled');
-      for (var i = 0; i < inputInit.length; i++) {
-        inputInit[i].removeAttribute('disabled');
-      }
-      for (i = 0; i < selectInit.length; i++) {
-        selectInit[i].removeAttribute('disabled');
-      }
+      initialInputs.forEach(function (item) {
+        item.removeAttribute('disabled');
+      });
+      initialSelects.forEach(function (index) {
+        index.removeAttribute('disabled');
+      });
 
       textarea.removeAttribute('disabled');
 
@@ -59,9 +55,9 @@
 
       // return main pin to default place;
       mouseup.style.visibility = 'visible';
-      mouseup.style.left = MAIN_PIN_DEFAULT_X + 'px';
-      mouseup.style.top = MAIN_PIN_DEFAULT_Y + 'px';
-      window.setAddress(MAIN_PIN_DEFAULT_X, MAIN_PIN_DEFAULT_Y);
+      mouseup.style.left = window.constants.MAIN_PIN_DEFAULT_X + 'px';
+      mouseup.style.top = window.constants.MAIN_PIN_DEFAULT_Y + 'px';
+      window.setAddress(window.constants.MAIN_PIN_DEFAULT_X, window.constants.MAIN_PIN_DEFAULT_Y);
 
       // disable the map and the form
       document.querySelector('.map').classList.add('map--faded');
@@ -71,29 +67,30 @@
       adFormPhoto.disabled = true;
       adFormPhotoDisplay.src = 'img/muffin-grey.svg';
       var photosDiv = adForm.querySelectorAll('.ad-form__photo');
-      for (i = 0; i < photosDiv.length; i++) {
-        photosDiv[i].remove();
-      }
+
+      photosDiv.forEach(function (item) {
+        item.remove();
+      });
+
       var photoBack = document.createElement('div');
       photoBack.classList.add('ad-form__photo');
       var photosContainer = document.querySelector('.ad-form__photo-container');
       photosContainer.appendChild(photoBack);
 
       // disable and clear all text inputs and checkboxes
-      for (i = 0; i < inputInit.length; i++) {
-        inputInit[i].disabled = true;
-        if (inputInit[i].type !== 'checkbox') {
-          inputInit[i].value = null;
-        } else if ((inputInit[i].type === 'checkbox') && (inputInit[i].checked)) {
-          this.console.log(inputInit[i].checked);
-          inputInit[i].checked = false;
+      initialInputs.forEach(function (item) {
+        item.disabled = true;
+        if (item.type !== 'checkbox') {
+          item.value = null;
+        } else if ((item.type === 'checkbox') && (item.checked)) {
+          item.checked = false;
         }
-      }
+      });
 
       // disable all selectors
-      for (i = 0; i < selectInit.length; i++) {
-        selectInit[i].disabled = true;
-      }
+      initialSelects.forEach(function (item) {
+        item.disabled = true;
+      });
 
       // set selectors to deafult
       propertyType.selectedIndex = '1';
@@ -111,7 +108,7 @@
       resetForm.disabled = true;
       adFormSubmit.disabled = true;
 
-      window.setAddress(Math.round(mouseup.offsetLeft + MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.offsetTop + MAIN_ROUND_PIN_HEIGHT / 2));
+      window.setAddress(Math.round(mouseup.offsetLeft + window.constants.MAIN_ROUND_PIN_WIDTH / 2), Math.round(mouseup.offsetTop + window.constants.MAIN_ROUND_PIN_HEIGHT / 2));
     }
 
   };
@@ -124,7 +121,7 @@
   });
 
   var onPinEnterPress = function (evt) {
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === window.constants.ENTER_KEYCODE) {
       window.setActive(true);
       mouseup.removeEventListener('keydown', onPinEnterPress);
     }

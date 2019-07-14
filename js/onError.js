@@ -4,7 +4,6 @@
 
 (function () {
   var main = document.querySelector('main');
-  var ESC_KEYCODE = 27;
 
   window.onError = function (status) {
     var errorTemplate = document.querySelector('#error')
@@ -73,7 +72,7 @@
       errorButton.removeEventListener('click', onErrorButtonClick);
     };
     var onEscPress = function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.constants.ESC_KEYCODE) {
         main.removeChild(errorNode);
         document.removeEventListener('keydown', onEscPress);
       }

@@ -29,13 +29,7 @@
 
   // check checkbox function
   var checkFeature = function (featureButton) {
-    var value;
-    if (featureButton.checked) {
-      value = true;
-    } else {
-      value = false;
-    }
-    return value;
+    return featureButton.checked;
   };
 
   var removeFilter = function (element) {
@@ -121,11 +115,11 @@
 
   var filterPrice = function (it) {
     if (housingPrice === 'low') {
-      return it.offer.price <= 10000;
+      return it.offer.price <= window.constants.LOW_PRICE_BEFORE;
     } else if (housingPrice === 'middle') {
-      return it.offer.price > 10000 && it.offer.price < 50000;
+      return it.offer.price > window.constants.LOW_PRICE_BEFORE && it.offer.price < window.constants.MIDDLE_PRICE_BEFORE;
     } else if (housingPrice === 'high') {
-      return it.offer.price > 50000;
+      return it.offer.price > window.constants.MIDDLE_PRICE_BEFORE;
     }
     return true;
   };

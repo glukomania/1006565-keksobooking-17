@@ -7,9 +7,9 @@
 
     removePins: function () {
       var displayedPinElements = document.querySelectorAll('.pin');
-      for (var i = 0; i < displayedPinElements.length; i++) {
-        displayedPinElements[i].remove();
-      }
+      displayedPinElements.forEach(function (item) {
+        item.remove();
+      });
     },
 
 

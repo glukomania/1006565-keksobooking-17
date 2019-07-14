@@ -5,8 +5,15 @@
 */
 
 (function () {
-  var ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
+
+  // Add content to the card
+  var type = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'palace': 'Дворец',
+    'house': 'Дом'
+  };
 
   window.createCard = function (pin) {
 
@@ -18,14 +25,6 @@
     // create an associated card
     var card = cardTemplate.cloneNode(true);
     card.classList.add('map__pin—active');
-
-    // Add content to the card
-    var type = {
-      'flat': 'Квартира',
-      'bungalo': 'Бунгало',
-      'palace': 'Дворец',
-      'house': 'Дом'
-    };
 
     // texts to card
     card.querySelector('img').src = pin.author.avatar;
@@ -47,15 +46,15 @@
     var photos = card.querySelector('.popup__photos');
     var img = photos.querySelector('img');
     if (pin.offer.photos.length > 0) {
-      for (var i = 0; i < pin.offer.photos.length; i++) {
-        if (i === 0) {
-          img.src = pin.offer.photos[0];
+      pin.offer.photos.forEach(function (item, index) {
+        if (index === 0) {
+          img.src = item;
         } else {
           var moreImg = img.cloneNode(true);
-          moreImg.src = pin.offer.photos[i];
+          moreImg.src = item;
           photos.appendChild(moreImg);
         }
-      }
+      });
     } else {
       img.style.display = 'none';
     }
@@ -67,7 +66,7 @@
     if (pin.offer.features.length === 0) {
       cardFeatures.style.display = 'none';
     }
-    for (i = 0; i < pin.offer.features.length; i++) {
+    for (var i = 0; i < pin.offer.features.length; i++) {
       if (pin.offer.features.indexOf(allFeatures[i]) === -1) {
         popupFeatures[i].style.display = 'none';
       }
@@ -93,7 +92,7 @@
 
     // Closing the card by pressing ESC
     var onEscPress = function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.constants.ESC_KEYCODE) {
         card.remove();
         popupClose.removeEventListener('keydown', onEscPress);
       }
@@ -103,7 +102,7 @@
     // closing the card by pressing Enter
     var cardClose = card.querySelector('popup__close');
     var onEnterPress = function (evt) {
-      if (evt.keyCode === 13) {
+      if (evt.keyCode === window.constants.ENTER_KEYCODE) {
         card.remove();
         cardClose.removeEventListener('keydown', onEnterPress);
       }

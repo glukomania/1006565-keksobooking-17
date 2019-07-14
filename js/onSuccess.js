@@ -6,7 +6,6 @@
   window.onSuccess = function () {
 
     var main = document.querySelector('main');
-    var ESC_KEYCODE = 27;
 
     // Add success message
     var successTemplate = document.querySelector('#success')
@@ -18,7 +17,7 @@
     // Handlers of removing success message
 
     var onEscPress = function (evtKey) {
-      if (evtKey.keyCode === ESC_KEYCODE) {
+      if (evtKey.keyCode === window.constants.ESC_KEYCODE) {
         main.removeChild(successNode);
         window.setActive(false);
         document.removeEventListener('keydown', onEscPress);
