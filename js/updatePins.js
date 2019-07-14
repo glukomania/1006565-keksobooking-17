@@ -22,7 +22,7 @@
   var isElevator = false;
   var isConditioner = false;
   var backupData;
-  var test = [];
+  var filters = [];
 
 
   /* REACTION TO DROPDOWN FILTERS */
@@ -33,9 +33,9 @@
   };
 
   var removeFilter = function (element) {
-    var index = test.indexOf(element);
+    var index = filters.indexOf(element);
     if (index > -1) {
-      test.splice(index, 1);
+      filters.splice(index, 1);
     }
   };
 
@@ -43,12 +43,12 @@
     if ((filterValue === 'any') || (filterValue === false)) {
       removeFilter(filterName);
     } else {
-      var index = test.indexOf(filterName);
+      var index = filters.indexOf(filterName);
       if (index > -1) {
         removeFilter(filterName);
-        test.push(filterName);
+        filters.push(filterName);
       } else {
-        test.push(filterName);
+        filters.push(filterName);
       }
     }
   };
@@ -119,7 +119,7 @@
     } else if (housingPrice === 'middle') {
       return it.offer.price > window.constants.LOW_PRICE_BEFORE && it.offer.price < window.constants.MIDDLE_PRICE_BEFORE;
     } else if (housingPrice === 'high') {
-      return it.offer.price > window.constants.MIDDLE_PRICE_BEFORE;
+      return it.offer.price >= window.constants.MIDDLE_PRICE_BEFORE;
     }
     return true;
   };
@@ -156,9 +156,13 @@
       backupData = data;
     }
 
+    /* !!!! In the fallowing function I didn't change the code,
+    because by meaning the cycle should not stop on the first
+    true/false, but only on false. */
+
     var result = backupData.filter(function (elem) {
-      for (var i = 0; i < test.length; i++) {
-        if (test[i](elem) === false) {
+      for (var i = 0; i < filters.length; i++) {
+        if (filters[i](elem) === false) {
           return false;
         }
       }

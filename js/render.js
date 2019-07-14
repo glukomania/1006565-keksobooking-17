@@ -35,11 +35,7 @@
     pinElement.addEventListener('click', onPinClick);
     pinElement.addEventListener('keydown', onEnterClick);
 
-
-    if (!pin.offer) {
-      return null;
-    }
-    return pinElement;
+    return (pin.offer) ? pinElement : null;
   };
 
   // Display only 5 or less pins

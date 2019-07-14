@@ -72,6 +72,12 @@
       }
     }
 
+    allFeatures.forEach(function (item, index) {
+      if (pin.offer.features.indexOf(item) === -1) {
+        popupFeatures[index].style.display = 'none';
+      }
+    });
+
     // close previously opened card
     window.removeElement.removeCard();
 
@@ -113,5 +119,6 @@
     }
 
   };
+
 })();
 
